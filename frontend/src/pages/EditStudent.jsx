@@ -71,6 +71,7 @@ const EditStudent = () => {
             type="text"
             name="student_id"
             value={formData.student_id}
+            placeholder="Student id"
             disabled
             className="w-full p-3 rounded-lg bg-gray-700 cursor-not-allowed"
           />
@@ -80,6 +81,7 @@ const EditStudent = () => {
             type="text"
             name="name"
             value={formData.name}
+            placeholder="Student Name"
             onChange={handleChange}
             className="w-full p-3 rounded-lg bg-[#1F2937] outline-none"
           />
@@ -99,6 +101,7 @@ const EditStudent = () => {
             type="email"
             name="email"
             value={formData.email}
+            placeholder="Student email"
             onChange={handleChange}
             className="w-full p-3 rounded-lg bg-[#1F2937] outline-none"
           />
@@ -108,6 +111,7 @@ const EditStudent = () => {
             type="number"
             name="marks"
             value={formData.marks}
+            placeholder="Student marks"
             onChange={handleChange}
             className="w-full p-3 rounded-lg bg-[#1F2937] outline-none"
           />
@@ -116,6 +120,7 @@ const EditStudent = () => {
           <input
             type="number"
             name="attendance"
+            placeholder="Attendance"
             value={formData.attendance}
             onChange={handleChange}
             className="w-full p-3 rounded-lg bg-[#1F2937] outline-none"
@@ -125,6 +130,7 @@ const EditStudent = () => {
           <input
             type="number"
             name="assignment"
+            placeholder="Assignment"
             value={formData.assignment}
             onChange={handleChange}
             className="w-full p-3 rounded-lg bg-[#1F2937] outline-none"
@@ -134,6 +140,7 @@ const EditStudent = () => {
           <input
             type="number"
             name="lms"
+            placeholder="Assignment"
             value={formData.lms}
             onChange={handleChange}
             className="w-full p-3 rounded-lg bg-[#1F2937] outline-none"
