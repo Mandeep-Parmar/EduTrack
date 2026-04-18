@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
-import { Eye, Trash2, Pencil } from "lucide-react";
+import { Eye, Trash2, Pencil, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Student = () => {
@@ -89,17 +89,26 @@ const Student = () => {
   return (
     <div className="min-h-screen bg-[#0B0F1A] text-white p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">📋 Students</h1>
+      <div className="flex flex-col gap-4 mb-6">
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="flex items-center gap-2 text-gray-400 hover:text-white transition w-fit"
+        >
+          <ArrowLeft size={20} />
+          Back to Dashboard
+        </button>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">📋 Students</h1>
 
-        {userRole !== "faculty_mentor" && (
-          <button
-            onClick={() => navigate("/add-student")}
-            className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700 shadow-md transition"
-          >
-            + Add Student
-          </button>
-        )}
+          {userRole !== "faculty_mentor" && (
+            <button
+              onClick={() => navigate("/add-student")}
+              className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700 shadow-md transition"
+            >
+              + Add Student
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Actions Bar */}
