@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
+  const userRole = userInfo.role;
 
   return (
     <div className="w-64 bg-[#111827] p-6 flex flex-col gap-6 border-r border-gray-800">
@@ -14,17 +16,22 @@ const Sidebar = () => {
           Dashboard
         </div>
 
+        {userRole !== "faculty_mentor" && (
+          <div
+            onClick={() => navigate("/add-student")}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 cursor-pointer"
+          >
+            <UserPlus size={18} />
+            Add Student
+          </div>
+        )}
+
         <div
-          onClick={() => navigate("/add-student")}
+          onClick={() => navigate("/students")}
           className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 cursor-pointer"
         >
-          <UserPlus size={18} />
-          Add Student
-        </div>
-
-        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 cursor-pointer">
           <Users size={18} />
-          Teacher Panel
+          Students Panel
         </div>
       </nav>
     </div>

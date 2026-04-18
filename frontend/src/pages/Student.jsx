@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const Student = () => {
   const [students, setStudents] = useState([]);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
+  const userRole = userInfo.role;
   const [search, setSearch] = useState("");
   const [riskFilter, setRiskFilter] = useState("All");
   const [classFilter, setClassFilter] = useState("All");
@@ -90,12 +92,14 @@ const Student = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">📋 Students</h1>
 
-        <button
-          onClick={() => navigate("/add-student")}
-          className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700 shadow-md transition"
-        >
-          + Add Student
-        </button>
+        {userRole !== "faculty_mentor" && (
+          <button
+            onClick={() => navigate("/add-student")}
+            className="bg-blue-600 px-5 py-2 rounded-lg hover:bg-blue-700 shadow-md transition"
+          >
+            + Add Student
+          </button>
+        )}
       </div>
 
       {/* Actions Bar */}
@@ -197,17 +201,21 @@ const Student = () => {
                       onClick={() => navigate(`/students/${s._id}`)}
                     />
 
-                    <Pencil
-                      size={18}
-                      className="cursor-pointer hover:text-yellow-400 transition"
-                      onClick={() => navigate(`/edit/${s._id}`)}
-                    />
+                    {userRole !== "faculty_mentor" && (
+                      <>
+                        <Pencil
+                          size={18}
+                          className="cursor-pointer hover:text-yellow-400 transition"
+                          onClick={() => navigate(`/edit/${s._id}`)}
+                        />
 
-                    <Trash2
-                      size={18}
-                      className="cursor-pointer hover:text-red-400 transition"
-                      onClick={() => handleDelete(s._id)}
-                    />
+                        <Trash2
+                          size={18}
+                          className="cursor-pointer hover:text-red-400 transition"
+                          onClick={() => handleDelete(s._id)}
+                        />
+                      </>
+                    )}
                   </td>
                 </tr>
               ))

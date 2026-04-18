@@ -7,6 +7,8 @@ import StatCards from "../components/StatCard";
 
 const Dashboard = () => {
   const [highRiskStudents, setHighRiskStudents] = useState([]);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
+  const userRole = userInfo.role;
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -71,9 +73,13 @@ const Dashboard = () => {
                         </div>
                         <Link
                           to={`/students/${student._id}`}
-                          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition"
+                          className={`${
+                            userRole === "teacher"
+                              ? "bg-blue-600 hover:bg-blue-700"
+                              : "bg-red-600 hover:bg-red-700"
+                          } text-white px-4 py-2 rounded-lg font-medium transition`}
                         >
-                          Intervene
+                          {userRole === "teacher" ? "View Details" : "Intervene"}
                         </Link>
                       </div>
                     </li>

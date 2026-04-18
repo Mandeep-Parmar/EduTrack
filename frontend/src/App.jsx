@@ -58,11 +58,11 @@ const App = () => {
         />
         <Route 
           path="/add-student" 
-          element={<ProtectedRoute allowedRoles={["teacher", "faculty_mentor", "faculty_coordinator"]}><AddStudent /></ProtectedRoute>} 
+          element={<ProtectedRoute allowedRoles={["teacher", "faculty_coordinator"]}><AddStudent /></ProtectedRoute>} 
         />
         <Route 
           path="/edit/:id" 
-          element={<ProtectedRoute allowedRoles={["teacher", "faculty_mentor", "faculty_coordinator"]}><EditStudent /></ProtectedRoute>} 
+          element={<ProtectedRoute allowedRoles={["teacher", "faculty_coordinator"]}><EditStudent /></ProtectedRoute>} 
         />
       </Routes>
     </div>

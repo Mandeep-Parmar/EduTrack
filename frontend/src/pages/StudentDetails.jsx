@@ -7,6 +7,8 @@ const StudentDetails = () => {
   const navigate = useNavigate();
 
   const [student, setStudent] = useState(null);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
+  const userRole = userInfo.role;
 
   // Intervention form state
   const [showInterventionForm, setShowInterventionForm] = useState(false);
@@ -147,12 +149,14 @@ const StudentDetails = () => {
         <div className="mt-8 border-t border-gray-800 pt-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-bold">🛠️ Intervention History</h2>
+            {userRole !== "teacher" && (
             <button
               onClick={() => setShowInterventionForm(!showInterventionForm)}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition"
             >
               {showInterventionForm ? "Cancel" : "+ Log Intervention"}
             </button>
+          )}
           </div>
 
           {showInterventionForm && (
