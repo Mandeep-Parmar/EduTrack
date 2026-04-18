@@ -34,7 +34,12 @@ const Signup = () => {
 
       localStorage.setItem("userInfo", JSON.stringify(response.data));
       toast.success("Account created successfully!");
-      navigate("/dashboard");
+      
+      if (response.data.role === "student") {
+        navigate("/student-dashboard");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed. Please try again.");
     } finally {

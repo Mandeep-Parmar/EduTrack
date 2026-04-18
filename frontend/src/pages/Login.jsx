@@ -19,7 +19,12 @@ const Login = () => {
 
       localStorage.setItem("userInfo", JSON.stringify(response.data));
       toast.success("Login successful!");
-      navigate("/dashboard");
+      
+      if (response.data.role === "student") {
+        navigate("/student-dashboard");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Invalid credentials or server error");
     } finally {

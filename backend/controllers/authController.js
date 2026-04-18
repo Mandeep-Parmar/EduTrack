@@ -46,27 +46,46 @@ export const registerStudent = async (req, res) => {
   const { name, email, password, student_id, courseClass } = req.body;
 
   try {
-    const studentExists = await Student.findOne({ email });
-
-    if (studentExists) {
-      return res.status(400).json({ message: "Student already exists" });
-    }
+    // Check if student already exists in our dataset
+    let student = await Student.findOne({ student_id });
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const student = await Student.create({
-      name,
-      email,
-      password: hashedPassword,
-      student_id,
-      courseClass: courseClass || "General",
-      // Default academic fields so creation doesn't fail
-      attendance: 0,
-      marks: 0,
-      assignment: 0,
-      lms: 0,
-    });
+    if (student) {
+      // If student exists but already has a password, they are already registered
+      if (student.password) {
+        return res.status(400).json({ message: "Student account already registered. Please login." });
+      }
+
+      // If student exists from CSV but has no password, update their profile with auth details
+      student.name = name || student.name;
+      student.email = email;
+      student.password = hashedPassword;
+      if (courseClass) student.courseClass = courseClass;
+      
+      await student.save();
+    } else {
+      // If student doesn't exist at all, create a brand new one
+      // Also ensure email isn't used by another student
+      const emailExists = await Student.findOne({ email });
+      if (emailExists) {
+        return res.status(400).json({ message: "Email already in use by another student" });
+      }
+
+      student = await Student.create({
+        name,
+        email,
+        password: hashedPassword,
+        student_id,
+        courseClass: courseClass || "General",
+        // Default academic fields so creation doesn't fail
+        attendance: 0,
+        marks: 0,
+        assignment: 0,
+        lms: 0,
+      });
+    }
 
     if (student) {
       res.status(201).json({

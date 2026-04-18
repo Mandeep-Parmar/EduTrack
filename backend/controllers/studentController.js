@@ -66,6 +66,11 @@ export const getStudentById = async (req, res) => {
       return res.status(404).json({ msg: "Student not found" });
     }
 
+    // Check if the user is a student requesting someone else's data
+    if (req.user && req.user.role === "student" && req.user._id.toString() !== student._id.toString()) {
+      return res.status(403).json({ msg: "Not authorized to view this student's data" });
+    }
+
     res.json(student);
   } catch (err) {
     res.status(500).json({ msg: err.message });

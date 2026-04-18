@@ -8,16 +8,17 @@ import {
   searchStudents,
   addIntervention,
 } from "../controllers/studentController.js";
+import { protect, authorizeRoles } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 // Routes
-router.post("/", createStudent); // Create
-router.get("/", getAllStudents); // Get all
-router.get("/search", searchStudents); // Search
-router.get("/:id", getStudentById); // Get one
-router.put("/:id", updateStudent); // Update
-router.delete("/:id", deleteStudent); // Delete
-router.post("/:id/interventions", addIntervention); // Add Intervention
+router.post("/", protect, authorizeRoles("teacher", "faculty_mentor", "faculty_coordinator"), createStudent); // Create
+router.get("/", protect, authorizeRoles("teacher", "faculty_mentor", "faculty_coordinator"), getAllStudents); // Get all
+router.get("/search", protect, authorizeRoles("teacher", "faculty_mentor", "faculty_coordinator"), searchStudents); // Search
+router.get("/:id", protect, getStudentById); // Get one (handled in controller for specific student access)
+router.put("/:id", protect, authorizeRoles("teacher", "faculty_mentor", "faculty_coordinator"), updateStudent); // Update
+router.delete("/:id", protect, authorizeRoles("teacher", "faculty_mentor", "faculty_coordinator"), deleteStudent); // Delete
+router.post("/:id/interventions", protect, authorizeRoles("faculty_mentor", "faculty_coordinator", "teacher"), addIntervention); // Add Intervention
 
 export default router;
