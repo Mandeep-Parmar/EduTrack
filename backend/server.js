@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/mongodb.js";
 import studentRoutes from "./routes/studentRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -19,6 +20,7 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 // api end points
+app.use("/api/auth", authRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 

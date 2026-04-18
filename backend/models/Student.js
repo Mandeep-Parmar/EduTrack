@@ -13,6 +13,11 @@ const studentSchema = new mongoose.Schema(
       unique: true,
     },
 
+    password: {
+      type: String,
+      required: true,
+    },
+
     //  Dataset ID
     student_id: {
       type: String,
