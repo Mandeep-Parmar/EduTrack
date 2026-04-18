@@ -1,11 +1,19 @@
 import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Student from "./pages/Student";
+import StudentDetails from "./pages/StudentDetails";
 
 const App = () => {
   return (
     <div>
-      <h1 className="text-3xl font-bold underline text-blue-600">
-        Tailwind is Working!
-      </h1>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/students" element={<Student />} />
+        <Route path="/studentDetails" element={<StudentDetails />} />
+      </Routes>
     </div>
   );
 };
