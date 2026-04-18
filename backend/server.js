@@ -1,8 +1,9 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
 import connectDB from "./config/mongodb.js";
+import studentRoutes from "./routes/studentRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -16,6 +17,8 @@ app.use(express.json());
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+app.use("/api/students", studentRoutes);
+
 app.get("/", (req, res) => {
   res.send("API Working");
 });
@@ -23,7 +26,9 @@ app.get("/", (req, res) => {
 // Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!', error: err.message });
+  res
+    .status(500)
+    .json({ message: "Something went wrong!", error: err.message });
 });
 
 app.listen(PORT, () => {
