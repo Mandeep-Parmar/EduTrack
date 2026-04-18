@@ -9,10 +9,11 @@ const AddStudent = () => {
     student_id: "",
     name: "",
     email: "",
+    courseClass: "",
     attendance: "",
     marks: "",
     assignment: "",
-    lms: ""
+    lms: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ const AddStudent = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -47,7 +48,6 @@ const AddStudent = () => {
 
   return (
     <div className="min-h-screen bg-[#0B0F1A] text-white p-6">
-
       {/* Back */}
       <button
         onClick={() => navigate("/students")}
@@ -58,11 +58,9 @@ const AddStudent = () => {
 
       {/* Form */}
       <div className="max-w-2xl mx-auto bg-[#111827] p-6 rounded-2xl shadow-lg border border-gray-800">
-
         <h1 className="text-2xl font-bold mb-6">➕ Add Student</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-
           <input
             type="text"
             name="student_id"
@@ -78,6 +76,16 @@ const AddStudent = () => {
             name="name"
             placeholder="Student Name"
             value={formData.name}
+            onChange={handleChange}
+            className="w-full p-3 rounded-lg bg-[#1F2937] outline-none"
+            required
+          />
+
+          <input
+            type="text"
+            name="courseClass"
+            placeholder="Course/Class (e.g. B.Tech CS Year 3)"
+            value={formData.courseClass}
             onChange={handleChange}
             className="w-full p-3 rounded-lg bg-[#1F2937] outline-none"
             required
@@ -140,7 +148,6 @@ const AddStudent = () => {
           >
             {loading ? "Adding..." : "Add Student"}
           </button>
-
         </form>
       </div>
     </div>

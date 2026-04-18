@@ -4,8 +4,16 @@ import calculateRisk from "../utils/riskCalculator.js";
 // ➕ CREATE STUDENT (from dataset format)
 export const createStudent = async (req, res) => {
   try {
-    const { student_id, name, email, attendance, marks, assignment, lms } =
-      req.body;
+    const {
+      student_id,
+      name,
+      email,
+      courseClass,
+      attendance,
+      marks,
+      assignment,
+      lms,
+    } = req.body;
 
     // check existing
     const existing = await Student.findOne({ student_id });
@@ -25,6 +33,7 @@ export const createStudent = async (req, res) => {
       student_id,
       name,
       email,
+      courseClass,
       attendance,
       marks,
       assignment,
@@ -66,7 +75,8 @@ export const getStudentById = async (req, res) => {
 // ✏️ UPDATE STUDENT + RECALCULATE RISK
 export const updateStudent = async (req, res) => {
   try {
-    const { name, email, attendance, marks, assignment, lms } = req.body;
+    const { name, email, courseClass, attendance, marks, assignment, lms } =
+      req.body;
 
     const riskData = calculateRisk({
       attendance,
@@ -80,6 +90,7 @@ export const updateStudent = async (req, res) => {
       {
         name,
         email,
+        courseClass,
         attendance,
         marks,
         assignment,
@@ -124,6 +135,35 @@ export const searchStudents = async (req, res) => {
     });
 
     res.json(students);
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+//  ADD INTERVENTION
+export const addIntervention = async (req, res) => {
+  try {
+    const { type, remarks } = req.body;
+    const student = await Student.findById(req.params.id);
+
+    if (!student) {
+      return res.status(404).json({ msg: "Student not found" });
+    }
+
+    // Capture snapshot of current metrics
+    const snapshot = {
+      attendance: student.attendance,
+      marks: student.marks,
+      assignment: student.assignment,
+      lms: student.lms,
+      riskScore: student.riskScore,
+      riskLevel: student.riskLevel,
+    };
+
+    student.interventions.push({ type, remarks, snapshot });
+    await student.save();
+
+    res.json(student);
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }

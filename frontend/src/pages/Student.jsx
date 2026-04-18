@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 const Student = () => {
   const [students, setStudents] = useState([]);
   const [search, setSearch] = useState("");
+  const [riskFilter, setRiskFilter] = useState("All");
+  const [classFilter, setClassFilter] = useState("All");
 
   const navigate = useNavigate();
 
@@ -31,11 +33,56 @@ const Student = () => {
     }
   };
 
-  const filteredStudents = students.filter(
-    (s) =>
+  const filteredStudents = students.filter((s) => {
+    const matchSearch =
       s.student_id?.toLowerCase().includes(search.toLowerCase()) ||
-      s.name?.toLowerCase().includes(search.toLowerCase()),
-  );
+      s.name?.toLowerCase().includes(search.toLowerCase());
+    const matchRisk = riskFilter === "All" || s.riskLevel === riskFilter;
+    const matchClass = classFilter === "All" || s.courseClass === classFilter;
+    return matchSearch && matchRisk && matchClass;
+  });
+
+  const uniqueClasses = [
+    "All",
+    ...new Set(students.map((s) => s.courseClass).filter(Boolean)),
+  ];
+
+  const exportCSV = () => {
+    const headers = [
+      "ID",
+      "Name",
+      "Email",
+      "Class",
+      "Marks",
+      "Attendance",
+      "LMS",
+      "RiskLevel",
+    ];
+    const rows = filteredStudents.map((s) => [
+      s.student_id,
+      s.name,
+      s.email,
+      s.courseClass || "General",
+      s.marks,
+      s.attendance,
+      s.lms,
+      s.riskLevel,
+    ]);
+
+    let csvContent =
+      "data:text/csv;charset=utf-8," +
+      headers.join(",") +
+      "\n" +
+      rows.map((e) => e.join(",")).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "academic_risk_report.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="min-h-screen bg-[#0B0F1A] text-white p-6">
@@ -51,14 +98,45 @@ const Student = () => {
         </button>
       </div>
 
-      {/* Search */}
-      <input
-        type="text"
-        placeholder="Search by ID or Name..."
-        className="w-full p-3 mb-5 rounded-xl bg-[#111827] border border-gray-700 focus:border-blue-500 outline-none"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      {/* Actions Bar */}
+      <div className="flex flex-col md:flex-row gap-4 mb-5">
+        <input
+          type="text"
+          placeholder="Search by ID or Name..."
+          className="flex-1 p-3 rounded-xl bg-[#111827] border border-gray-700 focus:border-blue-500 outline-none"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <select
+          className="p-3 rounded-xl bg-[#111827] border border-gray-700 focus:border-blue-500 outline-none"
+          value={riskFilter}
+          onChange={(e) => setRiskFilter(e.target.value)}
+        >
+          <option value="All">All Risks</option>
+          <option value="High">High Risk</option>
+          <option value="Medium">Medium Risk</option>
+          <option value="Low">Low Risk</option>
+        </select>
+
+        <select
+          className="p-3 rounded-xl bg-[#111827] border border-gray-700 focus:border-blue-500 outline-none"
+          value={classFilter}
+          onChange={(e) => setClassFilter(e.target.value)}
+        >
+          {uniqueClasses.map((cls, idx) => (
+            <option key={idx} value={cls}>
+              {cls === "All" ? "All Classes" : cls}
+            </option>
+          ))}
+        </select>
+
+        <button
+          onClick={exportCSV}
+          className="bg-green-600 px-5 py-3 rounded-xl font-semibold hover:bg-green-700 shadow-md transition whitespace-nowrap"
+        >
+          📥 Export CSV
+        </button>
+      </div>
 
       {/* Table */}
       <div className="overflow-x-auto bg-[#111827] rounded-2xl shadow-lg border border-gray-800">
@@ -68,6 +146,7 @@ const Student = () => {
             <tr>
               <th className="p-4">ID</th>
               <th>Name</th>
+              <th>courseClass</th>
               <th>Email</th>
               <th>Marks</th>
               <th>Attendance</th>
@@ -87,6 +166,7 @@ const Student = () => {
                 >
                   <td className="p-4 font-medium">{s.student_id}</td>
                   <td>{s.name || "N/A"}</td>
+                  <td>{s.courseClass || "General"}</td>
                   <td className="text-gray-400">{s.email || "N/A"}</td>
                   <td>{s.marks}</td>
                   <td>{s.attendance}%</td>

@@ -10,6 +10,7 @@ const EditStudent = () => {
     student_id: "",
     name: "",
     email: "",
+    courseClass: "",
     attendance: "",
     marks: "",
     assignment: "",
@@ -79,6 +80,16 @@ const EditStudent = () => {
             type="text"
             name="name"
             value={formData.name}
+            onChange={handleChange}
+            className="w-full p-3 rounded-lg bg-[#1F2937] outline-none"
+          />
+
+          {/* Course/Class */}
+          <input
+            type="text"
+            name="courseClass"
+            placeholder="Course/Class"
+            value={formData.courseClass}
             onChange={handleChange}
             className="w-full p-3 rounded-lg bg-[#1F2937] outline-none"
           />

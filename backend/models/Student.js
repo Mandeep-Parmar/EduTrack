@@ -20,6 +20,12 @@ const studentSchema = new mongoose.Schema(
       unique: true,
     },
 
+    courseClass: {
+      type: String,
+      required: true,
+      default: "General",
+    },
+
     //  Academic Data (from your CSV)
     attendance: {
       type: Number,
@@ -64,6 +70,26 @@ const studentSchema = new mongoose.Schema(
     reasons: [
       {
         type: String,
+      },
+    ],
+
+    interventions: [
+      {
+        type: {
+          type: String,
+          enum: ["counselling", "extra class", "remarks"],
+          required: true,
+        },
+        remarks: { type: String, required: true },
+        date: { type: Date, default: Date.now },
+        snapshot: {
+          attendance: Number,
+          marks: Number,
+          assignment: Number,
+          lms: Number,
+          riskScore: Number,
+          riskLevel: String,
+        },
       },
     ],
   },
