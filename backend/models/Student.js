@@ -2,14 +2,25 @@ import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema(
   {
-    // 🔹 Dataset ID
+    name: {
+      type: String,
+      required: true,
+    },
+
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    //  Dataset ID
     student_id: {
       type: String,
       required: true,
       unique: true,
     },
 
-    // 🔹 Academic Data (from your CSV)
+    //  Academic Data (from your CSV)
     attendance: {
       type: Number,
       required: true,
@@ -38,7 +49,7 @@ const studentSchema = new mongoose.Schema(
       max: 100,
     },
 
-    // 🔹 Calculated Risk (OUR LOGIC)
+    //  Calculated Risk (OUR LOGIC)
     riskScore: {
       type: Number,
       default: 0,
@@ -53,10 +64,10 @@ const studentSchema = new mongoose.Schema(
     reasons: [
       {
         type: String,
-      }
-    ]
+      },
+    ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Student", studentSchema);

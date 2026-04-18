@@ -1,11 +1,11 @@
 import Student from "../models/Student.js";
 import calculateRisk from "../utils/riskCalculator.js";
 
-
 // ➕ CREATE STUDENT (from dataset format)
 export const createStudent = async (req, res) => {
   try {
-    const { student_id, attendance, marks, assignment, lms } = req.body;
+    const { student_id, name, email, attendance, marks, assignment, lms } =
+      req.body;
 
     // check existing
     const existing = await Student.findOne({ student_id });
@@ -18,37 +18,35 @@ export const createStudent = async (req, res) => {
       attendance,
       marks,
       assignment,
-      lms
+      lms,
     });
 
     const student = await Student.create({
       student_id,
+      name,
+      email,
       attendance,
       marks,
       assignment,
       lms,
-      ...riskData
+      ...riskData,
     });
 
     res.status(201).json(student);
-
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
 };
-
 
 // 📥 GET ALL STUDENTS
 export const getAllStudents = async (req, res) => {
   try {
     const students = await Student.find().sort({ createdAt: -1 });
     res.json(students);
-
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
 };
-
 
 // 📄 GET SINGLE STUDENT
 export const getStudentById = async (req, res) => {
@@ -60,35 +58,35 @@ export const getStudentById = async (req, res) => {
     }
 
     res.json(student);
-
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
 };
 
-
 // ✏️ UPDATE STUDENT + RECALCULATE RISK
 export const updateStudent = async (req, res) => {
   try {
-    const { attendance, marks, assignment, lms } = req.body;
+    const { name, email, attendance, marks, assignment, lms } = req.body;
 
     const riskData = calculateRisk({
       attendance,
       marks,
       assignment,
-      lms
+      lms,
     });
 
     const updatedStudent = await Student.findByIdAndUpdate(
       req.params.id,
       {
+        name,
+        email,
         attendance,
         marks,
         assignment,
         lms,
-        ...riskData
+        ...riskData,
       },
-      { new: true }
+      { new: true },
     );
 
     if (!updatedStudent) {
@@ -96,12 +94,10 @@ export const updateStudent = async (req, res) => {
     }
 
     res.json(updatedStudent);
-
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
 };
-
 
 // ❌ DELETE STUDENT
 export const deleteStudent = async (req, res) => {
@@ -113,12 +109,10 @@ export const deleteStudent = async (req, res) => {
     }
 
     res.json({ msg: "Student deleted successfully" });
-
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
 };
-
 
 // 🔍 SEARCH (by student_id)
 export const searchStudents = async (req, res) => {
@@ -126,11 +120,10 @@ export const searchStudents = async (req, res) => {
     const { query } = req.query;
 
     const students = await Student.find({
-      student_id: { $regex: query, $options: "i" }
+      student_id: { $regex: query, $options: "i" },
     });
 
     res.json(students);
-
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
