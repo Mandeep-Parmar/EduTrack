@@ -1,6 +1,9 @@
 import { LayoutDashboard, UserPlus, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="w-64 bg-[#111827] p-6 flex flex-col gap-6 border-r border-gray-800">
       <h2 className="text-xl font-bold text-blue-400">EduGuard AI</h2>
@@ -11,7 +14,10 @@ const Sidebar = () => {
           Dashboard
         </div>
 
-        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 cursor-pointer">
+        <div
+          onClick={() => navigate("/add-student")}
+          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 cursor-pointer"
+        >
           <UserPlus size={18} />
           Add Student
         </div>
