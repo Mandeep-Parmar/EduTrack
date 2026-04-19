@@ -84,7 +84,7 @@ const StudentDashboard = () => {
   return (
     <div className="min-h-screen bg-[#0B0F1A] text-white font-sans">
       {/* Top Navbar */}
-      <nav className="bg-[#111827] border-b border-gray-800 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+      <nav className="bg-[#111827] border-b border-gray-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
             <GraduationCap className="text-white w-6 h-6" />
@@ -161,6 +161,83 @@ const StudentDashboard = () => {
             icon={<BarChart className="w-6 h-6 text-orange-400" />} 
             color="orange"
           />
+        </div>
+
+        
+        {/* AI Action Plan Section */}
+        <div className="bg-gradient-to-br from-[#1a2236] to-[#111827] rounded-2xl border border-gray-800 shadow-xl overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+          <div className="px-6 py-5 border-b border-gray-800 bg-[#151c2b] flex items-center justify-between z-10 relative">
+            <h2 className="text-xl font-bold flex items-center gap-2">
+              <span className="text-xl">🎯</span>
+              Your Personalized Action Plan
+            </h2>
+          </div>
+          <div className="p-6 z-10 relative">
+            {(() => {
+              const plans = [];
+              if (studentData.attendance < 75) {
+                plans.push({
+                  title: "Boost Your Attendance",
+                  description: `Your attendance is ${studentData.attendance}%. You need to attend the next few classes consistently to reach the safe zone of 75%.`,
+                  icon: <Calendar className="w-6 h-6 text-blue-400" />,
+                  bg: "bg-blue-500/10 border-blue-500/20"
+                });
+              }
+              if (studentData.marks < 50) {
+                plans.push({
+                  title: "Improve Exam Scores",
+                  description: `Your current marks are ${studentData.marks}. Consider joining a study group or scheduling a 1-on-1 with your mentor.`,
+                  icon: <Award className="w-6 h-6 text-purple-400" />,
+                  bg: "bg-purple-500/10 border-purple-500/20"
+                });
+              }
+              if (studentData.assignment < 50) {
+                plans.push({
+                  title: "Complete Missing Assignments",
+                  description: `Your assignment score is ${studentData.assignment}. Check the portal for any pending assignments and submit them ASAP.`,
+                  icon: <CheckCircle className="w-6 h-6 text-green-400" />,
+                  bg: "bg-green-500/10 border-green-500/20"
+                });
+              }
+              if (studentData.lms < 50) {
+                plans.push({
+                  title: "Increase LMS Activity",
+                  description: `Your LMS engagement is ${studentData.lms}. Make sure to log in, read the materials, and participate in discussions.`,
+                  icon: <BarChart className="w-6 h-6 text-orange-400" />,
+                  bg: "bg-orange-500/10 border-orange-500/20"
+                });
+              }
+
+              if (plans.length === 0) {
+                return (
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-500/20">
+                      <Award className="w-8 h-8 text-green-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-green-400 mb-2">You are doing fantastic!</h3>
+                    <p className="text-gray-400">All your metrics are looking great. Keep up the excellent work and maintain these habits.</p>
+                  </div>
+                );
+              }
+
+              return (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {plans.map((plan, idx) => (
+                    <div key={idx} className={`p-5 rounded-xl border ${plan.bg} bg-[#111827] flex gap-4 items-start hover:-translate-y-1 transition-transform duration-300`}>
+                      <div className="p-3 bg-[#1a2236] rounded-xl shrink-0">
+                        {plan.icon}
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-white mb-1">{plan.title}</h3>
+                        <p className="text-sm text-gray-400 leading-relaxed">{plan.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
         </div>
 
         {/* Interventions/Remarks Section */}
