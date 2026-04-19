@@ -81,10 +81,14 @@ const StudentDashboard = () => {
     }
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
-    <div className="min-h-screen bg-[#0B0F1A] text-white font-sans">
+    <div className="min-h-screen bg-[#0B0F1A] text-white font-sans print:bg-white print:text-black">
       {/* Top Navbar */}
-      <nav className="bg-[#111827] border-b border-gray-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+      <nav className="bg-[#111827] border-b border-gray-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50 print:hidden">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
             <GraduationCap className="text-white w-6 h-6" />
@@ -126,12 +130,22 @@ const StudentDashboard = () => {
             </div>
           </div>
           
-          <div className={`relative z-10 flex flex-col items-end p-4 rounded-xl border ${getRiskColor(studentData.riskLevel)}`}>
+          <div className="relative z-10 flex flex-col items-end gap-3">
+            <div className={`p-4 rounded-xl border flex flex-col items-end ${getRiskColor(studentData.riskLevel)} print:bg-gray-100 print:text-black print:border-gray-300`}>
             <span className="text-sm font-semibold uppercase tracking-wider mb-1 opacity-80">Overall Risk Level</span>
             <div className="flex items-center gap-2">
               <span className="text-3xl font-bold">{studentData.riskLevel}</span>
               <span className="text-lg opacity-80">({studentData.riskScore}%)</span>
             </div>
+          </div>
+
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-gray-700 print:hidden shadow-md"
+            >
+              <span>🖨️</span>
+              Print My Plan
+            </button>
           </div>
         </div>
 
