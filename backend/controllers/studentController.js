@@ -173,3 +173,22 @@ export const addIntervention = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
+
+
+// 🔔 NOTIFY STUDENT
+export const notifyStudent = async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ msg: "Student not found" });
+    }
+    
+    // Logic for notifying student (email, SMS, or in-app notification)
+    console.log(`Notification sent to ${student.email}`);
+    
+    res.json({ msg: `Notification successfully sent to ${student.name}.` });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+

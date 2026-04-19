@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../services/api";
+import InterventionComparisonChart from "../components/InterventionComparisonChart";
 
 const StudentDetails = () => {
   const { id } = useParams();
@@ -281,6 +282,7 @@ const StudentDetails = () => {
                           </div>
                         </div>
                       </div>
+                      <InterventionComparisonChart preData={intv.snapshot} postData={student} />
                     </div>
                   )}
                 </div>

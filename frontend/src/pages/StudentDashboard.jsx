@@ -11,6 +11,7 @@ import {
   User as UserIcon
 } from "lucide-react";
 import axios from "axios";
+import InterventionComparisonChart from "../components/InterventionComparisonChart";
 
 const StudentDashboard = () => {
   const [studentData, setStudentData] = useState(null);
@@ -300,6 +301,15 @@ const StudentDashboard = () => {
                       <p className="text-gray-300 leading-relaxed mt-3 bg-[#111827] p-4 rounded-lg border border-gray-800">
                         "{intervention.remarks}"
                       </p>
+                      
+                      {intervention.snapshot && (
+                        <div className="mt-4 bg-[#111827] rounded-lg p-4 border border-gray-800">
+                          <p className="text-xs text-gray-400 uppercase tracking-wider mb-3">
+                            Performance Comparison (Pre vs Post)
+                          </p>
+                          <InterventionComparisonChart preData={intervention.snapshot} postData={studentData} />
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
