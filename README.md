@@ -2,6 +2,14 @@
 
 EduTrack is a comprehensive, production-ready **Academic Risk Management Platform** built on the MERN stack. It proactively identifies students at risk of falling behind by analyzing multiple academic metrics (Attendance, Marks, Assignments, and LMS Engagement) and provides actionable insights for both faculty and students.
 
+---
+
+## 🌐 Live Demo
+
+👉 **Live Project:** https://edu-track-frontend.vercel.app/
+
+---
+
 ## ✨ Features
 
 ### 🛡️ Role-Based Access Control (RBAC)
@@ -43,69 +51,112 @@ EduTrack is a comprehensive, production-ready **Academic Risk Management Platfor
 
 ---
 
-## 🚀 Getting Started
+### 🚀 Getting Started
 
 ### Prerequisites
-*   Node.js installed
-*   MongoDB installed locally or a MongoDB Atlas URI
 
-### 1. Clone the Repository
-\`\`\`bash
+* Node.js
+* MongoDB (local or Atlas)
+
+---
+
+### 1. Clone Repository
+
+```bash
 git clone <repository-url>
 cd EduTrack
-\`\`\`
+```
+
+---
 
 ### 2. Backend Setup
-\`\`\`bash
+
+```bash
 cd backend
 npm install
-\`\`\`
-Create a `.env` file inside the `backend` directory with the following variables:
-\`\`\`env
+```
+
+Create `.env` file:
+
+```env
 PORT=5000
-MONGODB_URI=mongodb://127.0.0.1:27017/edutrack
+MONGODB_URI=your_mongodb_uri
 JWT_SECRET=your_super_secret_jwt_key
-\`\`\`
-Start the backend server:
-\`\`\`bash
+```
+
+Run backend:
+
+```bash
 npm run dev
-\`\`\`
+```
+
+---
 
 ### 3. Frontend Setup
-Open a new terminal window:
-\`\`\`bash
+
+```bash
 cd frontend
 npm install
-\`\`\`
-Start the Vite development server:
-\`\`\`bash
-npm run dev
-\`\`\`
+```
 
-### 4. Database Seeding (Optional but Recommended)
-To test all features, you can instantly generate 100 mock students and 3 faculty accounts.
-\`\`\`bash
+Create a `.env` file inside the `frontend` directory:
+
+```env
+VITE_BACKEND_URL=https://your-backend-url
+```
+
+Run frontend:
+
+```bash
+npm run dev
+```
+
+
+### 4. Database Seeding (Optional)
+
+```bash
 cd backend
 node seed.js
-\`\`\`
-*This will wipe existing data and populate the DB with rich, realistic data so you can test search, filtering, and charts.*
+```
 
 ---
 
 ## 🔐 Default Seed Accounts
 
-If you ran the seeder, use these credentials to log in:
+### 👨‍🏫 Coordinator
 
-**Faculty Coordinator:**
-*   Email: `coord@example.com`
-*   Password: `password123`
+* Email: `coord@example.com`
+* Password: `password123`
 
-**Faculty Mentor:**
-*   Email: `mentor@example.com`
-*   Password: `password123`
+### 👨‍🏫 Mentor
 
-**Student:**
-*   Email: `student1@example.com` (up to `student100@example.com`)
-*   Password: `password123`
+* Email: `mentor@example.com`
+* Password: `password123`
+
+### 👨‍🏫 Teacher
+
+* Email: `teacher@example.com`
+* Password: `password123`
+
+### 🎓 Student
+
+* Email: `student1@example.com` → `student100@example.com`
+* Password: `password123`
 
 ---
+
+## 👥 Contributors
+
+### **Team Anant**
+
+* Mandeep Parmar
+* Bhaumik Parghi
+* Mansi Patel
+* Archi Patel
+
+---
+
+## 💡 Final Note
+
+> EduTrack doesn’t just detect academic problems — it provides
+> **actionable insights and measurable improvement tracking**.
