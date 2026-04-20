@@ -1,7 +1,14 @@
 import axios from "axios";
 
+const rawBackendUrl = (import.meta.env.VITE_BACKEND_URL || "").trim().replace(/\/+$/, "");
+const normalizedBaseUrl = rawBackendUrl
+  ? rawBackendUrl.endsWith("/api")
+    ? rawBackendUrl
+    : `${rawBackendUrl}/api`
+  : "/api";
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL,
+  baseURL: normalizedBaseUrl,
 });
 
 API.interceptors.request.use((req) => {
