@@ -10,7 +10,7 @@ import {
   LogOut,
   User as UserIcon
 } from "lucide-react";
-import axios from "axios";
+import API from "../services/api";
 import InterventionComparisonChart from "../components/InterventionComparisonChart";
 
 const StudentDashboard = () => {
@@ -28,7 +28,7 @@ const StudentDashboard = () => {
             Authorization: `Bearer ${userInfo.token}`,
           },
         };
-        const { data } = await axios.get(`http://localhost:5000/api/students/${userInfo._id}`, config);
+        const { data } = await API.get(`/students/${userInfo._id}`, config);
         setStudentData(data);
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch student data");

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Mail, Lock, LogIn } from "lucide-react";
 import { toast } from "react-toastify";
-import axios from "axios";
+import API from "../services/api";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", { email, password });
+      const response = await API.post("/auth/login", { email, password });
 
       localStorage.setItem("userInfo", JSON.stringify(response.data));
       toast.success("Login successful!");

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { User, Mail, Lock, BookOpen, GraduationCap } from "lucide-react";
 import { toast } from "react-toastify";
-import axios from "axios";
+import API from "../services/api";
 
 const Signup = () => {
   const [userType, setUserType] = useState("student"); // "student" or "faculty"
@@ -27,10 +27,10 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
 
-    const endpoint = userType === "student" ? "/api/auth/register-student" : "/api/auth/register-faculty";
+    const endpoint = userType === "student" ? "/auth/register-student" : "/auth/register-faculty";
     
     try {
-      const response = await axios.post(`http://localhost:5000${endpoint}`, formData);
+      const response = await API.post(endpoint, formData);
 
       localStorage.setItem("userInfo", JSON.stringify(response.data));
       toast.success("Account created successfully!");
